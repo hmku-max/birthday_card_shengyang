@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>生日快樂，王升陽！</title>
+<style>
+  :root {
+    --dark-green: #1e4d2b;
+    --mid-green:  #2d7a45;
+    --light-green:#a8d5a2;
+    --gold:       #e6a817;
+    --gold-light: #fdf0c0;
+    --cream:      #fdfaf2;
+    --warm-white: #fffef9;
+    --text-dark:  #1a3320;
+    --text-mid:   #3a6b45;
+    --text-muted: #7aaa80;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    font-family: "Georgia", "Noto Serif TC", serif;
+    background: radial-gradient(ellipse at 60% 30%, #e8f5e9 0%, var(--cream) 55%, #fef9e7 100%);
+    overflow: hidden;
+    color: var(--text-dark);
+  }
+
+  /* ── 粒線體飄動粒子 ── */
+  #mito-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .mito {
+    position: absolute;
+    bottom: -80px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0;
+    animation: mitoFloat linear infinite;
+  }
+  .mito-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    border: 2px solid rgba(46,122,69,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .mito-inner::before {
+    content: "";
+    position: absolute;
+    top: 30%; left: 15%;
+    width: 70%; height: 40%;
+    border-top: 2px solid rgba(230,168,23,0.5);
+    border-radius: 50%;
+  }
+  .mito-inner::after {
+    content: "";
+    position: absolute;
+    top: 55%; left: 20%;
+    width: 60%; height: 30%;
+    border-top: 2px solid rgba(230,168,23,0.4);
+    border-radius: 50%;
+  }
+  @keyframes mitoFloat {
+    0%   { transform: translateY(0) rotate(0deg) scale(1);   opacity: 0; }
+    8%   { opacity: 0.55; }
+    85%  { opacity: 0.45; }
+    100% { transform: translateY(-110vh) rotate(25deg) scale(0.85); opacity: 0; }
+  }
+
+  /* ── ATP 能量光點 ── */
+  .atp-dot {
+    position: absolute;
+    border-radius: 50%;
+    animation: atpPulse ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes atpPulse {
+    0%   { transform: scale(1);   opacity: 0.4; }
+    100% { transform: scale(1.6); opacity: 0.15; }
+  }
+
+  /* ── 煙火 ── */
+  #fireworks {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* ── 主卡片 ── */
+  .card {
+    position: relative;
+    z-index: 5;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 24px 80px;
+    text-align: center;
+    gap: 0;
+  }
+
+  /* ── 標題 ── */
+  .title-block {
+    opacity: 0;
+    animation: riseFade 1.4s ease-out 0.3s forwards;
+    margin-bottom: 10px;
+  }
+  .title {
+    font-size: clamp(1.5rem, 4vw, 2.6rem);
+    font-weight: 700;
+    color: var(--dark-green);
+    letter-spacing: 3px;
+    text-shadow: 0 2px 10px rgba(30,77,43,0.12);
+    line-height: 1.3;
+  }
+  .subtitle-en {
+    font-size: clamp(0.9rem, 2vw, 1.3rem);
+    color: var(--gold);
+    margin-top: 4px;
+    letter-spacing: 2px;
+    font-style: italic;
+  }
+  .badge {
+    display: inline-block;
+    margin-top: 8px;
+    background: var(--dark-green);
+    color: var(--gold-light);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 16px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(30,77,43,0.25);
+  }
+
+  /* ── 蛋糕 ── */
+  .cake-wrap {
+    cursor: pointer;
+    opacity: 0;
+    animation: riseFade 1.4s ease-out 1.0s forwards;
+    transition: transform 0.25s ease;
+    margin: 12px 0 8px;
+  }
+  .cake-wrap:hover { transform: scale(1.05); }
+  .cake-wrap:active { transform: scale(0.97); }
+
+  .cake {
+    position: relative;
+    width: 210px;
+    height: 195px;
+    margin: 0 auto;
+  }
+  .plate {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 250px; height: 16px;
+    background: linear-gradient(180deg, #fff 0%, #e8c5d0 100%);
+    border-radius: 50%;
+    box-shadow: 0 5px 12px rgba(214,51,108,0.15);
+  }
+  .layer-bottom {
+    position: absolute;
+    bottom: 13px; left: 50%;
+    transform: translateX(-50%);
+    width: 196px; height: 68px;
+    background: linear-gradient(180deg, #ffb3c6 0%, #ff8fa3 100%);
+    border-radius: 12px 12px 5px 5px;
+    box-shadow: inset 0 -8px 0 rgba(0,0,0,0.08);
+  }
+  .cream-b {
+    position: absolute;
+    bottom: 78px; left: 50%;
+    transform: translateX(-50%);
+    width: 196px; height: 13px;
+    background: #fff5f7;
+    border-radius: 4px;
+  }
+  .cream-b::before, .cream-b::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    width: 18px; height: 9px;
+    background: #fff5f7;
+    border-radius: 0 0 50% 50%;
+  }
+  .cream-b::before { left: 15%; }
+  .cream-b::after  { left: 62%; }
+
+  .layer-top {
+    position: absolute;
+    bottom: 88px; left: 50%;
+    transform: translateX(-50%);
+    width: 138px; height: 55px;
+    background: linear-gradient(180deg, #ffc2d1 0%, #ff9ab0 100%);
+    border-radius: 10px 10px 5px 5px;
+    box-shadow: inset 0 -6px 0 rgba(0,0,0,0.08);
+  }
+  .cream-t {
+    position: absolute;
+    bottom: 140px; left: 50%;
+    transform: translateX(-50%);
+    width: 138px; height: 11px;
+    background: #fff5f7;
+    border-radius: 4px;
+  }
+  .cream-t::before, .cream-t::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    width: 15px; height: 7px;
+    background: #fff5f7;
+    border-radius: 0 0 50% 50%;
+  }
+  .cream-t::before { left: 18%; }
+  .cream-t::after  { left: 60%; }
+
+  /* ATP 字樣在蛋糕上 */
+  .cake-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--gold-light);
+    opacity: 0.85;
+    user-select: none;
+  }
+  .cl1 { bottom: 38px; left: 22%; }
+  .cl2 { bottom: 42px; left: 55%; }
+  .cl3 { bottom: 105px; left: 24%; }
+  .cl4 { bottom: 108px; left: 58%; }
+
+  .candle {
+    position: absolute;
+    bottom: 150px; left: 50%;
+    transform: translateX(-50%);
+    width: 9px; height: 30px;
+    background: repeating-linear-gradient(180deg, #fff 0 4px, #e6a817 4px 8px);
+    border-radius: 2px;
+    box-shadow: 0 0 4px rgba(230,168,23,0.3);
+  }
+  .flame {
+    position: absolute;
+    bottom: 180px; left: 50%;
+    transform: translateX(-50%);
+    width: 11px; height: 17px;
+    background: radial-gradient(ellipse at 50% 70%, #fff9c4 0%, #ffca28 55%, #ff8f00 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flicker 0.65s ease-in-out infinite alternate;
+    box-shadow: 0 0 14px rgba(255,202,40,0.6);
+  }
+  @keyframes flicker {
+    0%   { transform: translateX(-50%) scale(1) rotate(-2deg); }
+    100% { transform: translateX(-50%) scale(1.12) rotate(2deg); }
+  }
+
+  /* ── 祝福文字 ── */
+  .message {
+    opacity: 0;
+    animation: riseFade 1.4s ease-out 1.8s forwards;
+    max-width: 580px;
+    width: 100%;
+    line-height: 2;
+    font-size: clamp(0.9rem, 1.7vw, 1.1rem);
+    color: var(--text-mid);
+  }
+  .message .line { display: block; }
+  .message .hi {
+    font-size: 1.1em;
+    color: var(--dark-green);
+    font-weight: 700;
+  }
+  .message .gold {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* ── hint ── */
+  .hint {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-mid);
+    opacity: 0;
+    animation: riseFade 1.5s ease-out 3.0s forwards;
+    z-index: 8;
+    letter-spacing: 1px;
+  }
+
+  @keyframes riseFade {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div id="mito-layer"></div>
+<canvas id="fireworks"></canvas>
+
+<div class="card">
+
+  <div class="title-block">
+    <div class="title">🎂 生日快樂，王董！</div>
+    <div class="subtitle-en">Happy Birthday ✨</div>
+    <div class="badge">⚡ ATP 滿格・能量全開 ⚡</div>
+  </div>
+
+  <div class="cake-wrap" id="cakeWrap">
+    <div class="cake">
+      <div class="flame"></div>
+      <div class="candle"></div>
+      <div class="cream-t"></div>
+      <div class="layer-top"></div>
+      <div class="cream-b"></div>
+      <div class="layer-bottom"></div>
+      <div class="plate"></div>
+      <div class="cake-label cl1">ATP</div>
+      <div class="cake-label cl2">NAD+</div>
+      <div class="cake-label cl3">SIRT1</div>
+      <div class="cake-label cl4">PGC</div>
+    </div>
+  </div>
+
+  <p class="message">
+    <span class="line hi">🔬 研究成果豐碩，是今年最閃亮的發現！</span>
+    <span class="line">願你的 SIRT1 持續全速運轉，</span>
+    <span class="line gold">粒線體越來越新生，ATP 永遠充裕。</span>
+    <span class="line">感謝你在學術路上的付出與精彩，</span>
+    <span class="line">生日這天，好好充電、補滿能量，</span>
+    <span class="line hi">身體健康，笑口常開，每一天都精彩！</span>
+  </p>
+
+</div>
+
+<p class="hint">🎂 點一下蛋糕有驚喜！</p>
+
+<script>
+/* ── 粒線體飄動 ── */
+(function spawnMito() {
+  const layer = document.getElementById('mito-layer');
+  const greens = [
+    'rgba(46,122,69,0.18)', 'rgba(30,77,43,0.15)',
+    'rgba(168,213,162,0.25)', 'rgba(230,168,23,0.12)'
+  ];
+  for (let i = 0; i < 16; i++) {
+    const m = document.createElement('div');
+    m.className = 'mito';
+    const w = 28 + Math.random() * 36;
+    m.style.width  = w + 'px';
+    m.style.height = (w * 0.55) + 'px';
+    m.style.left   = Math.random() * 100 + '%';
+    m.style.background = greens[Math.floor(Math.random() * greens.length)];
+    const dur   = 14 + Math.random() * 12;
+    const delay = -Math.random() * dur;
+    m.style.animationDuration = dur + 's';
+    m.style.animationDelay   = delay + 's';
+    const inner = document.createElement('div');
+    inner.className = 'mito-inner';
+    m.appendChild(inner);
+    layer.appendChild(m);
+  }
+
+  /* ATP 光點 */
+  const colors = ['#e6a817','#2d7a45','#a8d5a2','#fdf0c0'];
+  for (let i = 0; i < 10; i++) {
+    const d = document.createElement('div');
+    d.className = 'atp-dot';
+    const sz = 6 + Math.random() * 18;
+    d.style.width  = sz + 'px';
+    d.style.height = sz + 'px';
+    d.style.left   = Math.random() * 100 + '%';
+    d.style.top    = Math.random() * 100 + '%';
+    d.style.background = colors[Math.floor(Math.random() * colors.length)];
+    d.style.animationDuration = (2 + Math.random() * 3) + 's';
+    d.style.animationDelay    = (-Math.random() * 3) + 's';
+    layer.appendChild(d);
+  }
+})();
+
+/* ── 煙火引擎 ── */
+const canvas = document.getElementById('fireworks');
+const ctx    = canvas.getContext('2d');
+let particles = [];
+
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+const FW_COLORS = [
+  '#ff477e','#ff9500','#ffdd00','#00c851',
+  '#00aaff','#aa44ff','#ff6b9d','#ffffff',
+  '#ff4444','#44ddaa','#ffaa00','#66bbff'
+];
+
+function createFirework(x, y) {
+  for (let i = 0; i < 75; i++) {
+    const angle = (Math.PI * 2 * i) / 75 + Math.random() * 0.3;
+    const speed = 2.5 + Math.random() * 5.5;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      alpha: 1,
+      color: FW_COLORS[Math.floor(Math.random() * FW_COLORS.length)],
+      size: 2 + Math.random() * 2.5,
+      gravity: 0.055
+    });
+  }
+}
+
+function launchBurst(cx, baseY) {
+  const spots = [
+    { x: cx,       y: baseY - 80,  d: 0    },
+    { x: cx - 150, y: baseY - 50,  d: 220  },
+    { x: cx + 150, y: baseY - 50,  d: 440  },
+    { x: cx - 80,  y: baseY - 180, d: 660  },
+    { x: cx + 80,  y: baseY - 180, d: 880  },
+    { x: cx,       y: baseY - 260, d: 1100 },
+  ];
+  spots.forEach(s => setTimeout(() => createFirework(s.x, s.y), s.d));
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.vy += p.gravity; p.x += p.vx; p.y += p.vy; p.alpha -= 0.011;
+    if (p.alpha <= 0) { particles.splice(i, 1); continue; }
+    ctx.globalAlpha = p.alpha;
+    ctx.fillStyle   = p.color;
+    ctx.shadowBlur  = 10;
+    ctx.shadowColor = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  ctx.shadowBlur  = 0;
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ── 蛋糕互動 ── */
+const cakeWrap = document.getElementById('cakeWrap');
+function fireworkFromCake() {
+  const rect = cakeWrap.getBoundingClientRect();
+  launchBurst(rect.left + rect.width / 2, rect.top + 20);
+}
+cakeWrap.addEventListener('click', fireworkFromCake);
+
+/* ── 自動施放 ── */
+window.addEventListener('load', function() {
+  const W = window.innerWidth, H = window.innerHeight;
+  [
+    { x: W*0.18, y: H*0.35, d: 900  },
+    { x: W*0.82, y: H*0.30, d: 1300 },
+    { x: W*0.50, y: H*0.15, d: 1700 },
+    { x: W*0.12, y: H*0.55, d: 2200 },
+    { x: W*0.88, y: H*0.50, d: 2600 },
+    { x: W*0.50, y: H*0.20, d: 3100 },
+  ].forEach(s => setTimeout(() => createFirework(s.x, s.y), s.d));
+  setTimeout(fireworkFromCake, 3700);
+});
+</script>
+</body>
+</html>
